@@ -1,0 +1,38 @@
+{
+  "name": "youtube-music-blogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --watch --mode development",
+    "build": "webpack -p",
+    "start": "./node_modules/.bin/babel server.js && nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrianHsu/youtube-music-blogger.git"
+  },
+  "author": "AdrianHsu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AdrianHsu/youtube-music-blogger/issues"
+  },
+  "homepage": "https://github.com/AdrianHsu/youtube-music-blogger#readme",
+  "dependencies": {
+    "@babel/cli": "^7.0.0-beta.47",
+    "@babel/core": "^7.0.0-beta.47",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
+    "@babel/preset-env": "^7.0.0-beta.47",
+    "@babel/preset-react": "^7.0.0-beta.47",
+    "@material-ui/core": "^1.0.0-rc.1",
+    "@material-ui/icons": "^1.0.0-rc.0",
+    "babel-loader": "^8.0.0-beta.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}
