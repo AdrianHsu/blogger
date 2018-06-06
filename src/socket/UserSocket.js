@@ -42,7 +42,7 @@ class UserSocket {
                 res.send(err);
             } else if (user.length == 1) {
                 console.log(user);
-                res.redirect('/blog'); 
+                res.redirect('/blog/' + myUser.username); 
             } else {
                 console.log('not found');
                 res.send('not found');

@@ -23,8 +23,9 @@ class SignUp extends React.Component {
     console.log("componentWillMount()");
     var retrievedObject = sessionStorage.getItem('userInfo');
     if(retrievedObject != null) {
-      window.alert(retrievedObject + '\n您已經登入，重新導向至聊天室...');
-      window.location = '/chatroom';
+      window.alert(retrievedObject + '\n您已經登入，重新導向中...');
+      var username = JSON.parse(retrievedObject)['username'];
+      window.location = '/blog/' + username;
     }
   };
   handleChange = name => event => {

@@ -23,8 +23,9 @@ class Login extends React.Component {
     console.log("componentWillMount()");
     var retrievedObject = sessionStorage.getItem('userInfo');
     if(retrievedObject != null) {
-      window.alert(retrievedObject + '\n您已經登入，重新導向至聊天室...');
-      window.location = '/chatroom';
+      window.alert(retrievedObject + '\n您已經登入，重新導向中...');
+      var username = JSON.parse(retrievedObject)['username'];
+      window.location = '/blog/' + username;
     }
   };
   handleChange = name => event => {
@@ -59,11 +60,9 @@ class Login extends React.Component {
         var userInfo = { 'username': this.state.field_user, 
           'password': sha256(this.state.field_pass)};
         sessionStorage.setItem('userInfo', JSON.stringify( userInfo ));
-        // var retrievedObject = sessionStorage.getItem('userInfo');
-        // console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
         window.alert(userInfo['username'] + ': 登入成功！');
-        window.location = '/blog';
+        window.location = '/blog/' + this.state.field_user;
       } else { // _message is ERROR message, error occurs!
         console.log(res.data);
         window.alert(res.data);

@@ -25,14 +25,11 @@ app.get('/signup', function(req, res) {
     res.sendFile(path.join(__dirname, './public/signup.html'));
 })
 
-app.get('/blog', function(req, res) {
+app.get('/blog/:id', function(req, res) {
+    console.log(req.params.id);
     res.sendFile(path.join(__dirname, './public/blog.html'));
 })
 
-app.get('/redirect', function(req, res) {
-    console.log(req.query.page);
-    res.redirect(req.query.page); 
-})
 app.post('/user/signup', function (req, res) {
     
     var newUser = {username: req.body.username,
