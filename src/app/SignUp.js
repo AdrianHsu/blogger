@@ -60,7 +60,7 @@ class SignUp extends React.Component {
         this.loginPage();
       } else { // _message is ERROR message, error occurs!
         console.log(res.data._message);
-        window.alert(res.data._message);
+        window.alert(res.data._message + ' (already used or invalid)');
         this.setState({
           error: true,
           field_user: "",

@@ -29,6 +29,11 @@ app.get('/blog/:id', function(req, res) {
     console.log(req.params.id);
     res.sendFile(path.join(__dirname, './public/blog.html'));
 })
+// redirect: for login - signup
+app.get('/redirect', function(req, res) {
+    console.log(req.query.page);
+    res.redirect(req.query.page); 
+})
 
 app.post('/user/signup', function (req, res) {
     
