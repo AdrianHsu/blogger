@@ -13,6 +13,9 @@ const styles = {
   },
   flex: {
     flex: 1,
+  },
+  appbar: {
+    boxShadow: '0px 0px 1px 1px rgba(0, 0, 0, .30)',
   }
 };
 
@@ -32,7 +35,7 @@ class ButtonAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="fixed" color="default">
+        <AppBar position="fixed" color="default" className={classes.appbar}>
           <Toolbar>
             <MenuDrawer username={this.props.username} history={this.props.history}/>
             <Typography variant="title" color="inherit" className={classes.flex}>
