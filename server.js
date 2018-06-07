@@ -26,7 +26,7 @@ app.get('/signup', function(req, res) {
 })
 
 app.get('/blog/:id', function(req, res) {
-    console.log(req.params.id);
+    // console.log(req.params.id);
     res.sendFile(path.join(__dirname, './public/blog.html'));
 })
 // redirect: for login - signup
@@ -52,7 +52,6 @@ app.post('/user/login', function (req, res) {
 
     userSocket.checkUsers(myUser, res);
 });
-
 
 http.listen(port, function(err) {
     if (err) {

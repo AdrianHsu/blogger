@@ -98,14 +98,14 @@ class Login extends React.Component {
         <DialogTitle>登入</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            請輸入您的暱稱與密碼。
+            請輸入您的帳號與密碼。
           </DialogContentText>
           <TextField
             autoFocus
             error={this.state.error}
             margin="dense"
             id="username"
-            label="暱稱"
+            label="帳號"
             type="username"
             value={this.state.field_user}
             onChange={this.handleChange('field_user')}
