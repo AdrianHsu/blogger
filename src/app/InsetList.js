@@ -13,7 +13,7 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
-    padding: 24,
+    padding: 24 ,
     margin: theme.spacing.unit * 8,
   
   },

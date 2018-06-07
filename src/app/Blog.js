@@ -44,6 +44,7 @@ class Blog extends React.Component {
   }
   
   render() {
+    
     return (
     <div>
     <ButtonAppBar history={this.props.history} 
@@ -52,7 +53,7 @@ class Blog extends React.Component {
     </ButtonAppBar>
     <Grid container spacing={24}>
       <Grid item xs={12} sm={9}>
-      <PreviewArticle/>
+      {/* <PreviewArticle/> */}
       </Grid>
       <Grid item xs={8} sm={2}>
       <InsetList />
