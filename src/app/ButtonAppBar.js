@@ -25,7 +25,7 @@ class ButtonAppBar extends React.Component {
     e.preventDefault();
 
     sessionStorage.clear();
-    window.location = '/login';
+    this.props.history.push('/login');
   }
   render() {
     const { classes } = this.props;
@@ -34,9 +34,9 @@ class ButtonAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="fixed" color="default">
           <Toolbar>
-            <MenuDrawer />
+            <MenuDrawer username={this.props.username} history={this.props.history}/>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              {this.props.username} 的網誌
+              {this.props.hostname} 的網誌
             </Typography>
             <Button onClick={e => this.redirectAuth(e)}>
               登出

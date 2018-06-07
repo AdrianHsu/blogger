@@ -15,25 +15,13 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname ,'public')));
 
-app.get(['/', '/login'], function(req, res) {
-    console.log('redirect to: login');
-    res.sendFile(path.join(__dirname, './public/login.html'));
-})
-
-app.get('/signup', function(req, res) {
-    console.log('redirect to: signup');
-    res.sendFile(path.join(__dirname, './public/signup.html'));
-})
-
-app.get('/blog/:id', function(req, res) {
-    // console.log(req.params.id);
-    res.sendFile(path.join(__dirname, './public/blog.html'));
-})
-// redirect: for login - signup
-app.get('/redirect', function(req, res) {
-    console.log(req.query.page);
-    res.redirect(req.query.page); 
-})
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, '/public/index.html'), function(err) {
+      if (err) {
+        res.status(500).send(err)
+      }
+    });
+});
 
 app.post('/user/signup', function (req, res) {
     

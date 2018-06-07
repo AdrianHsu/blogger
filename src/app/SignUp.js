@@ -18,6 +18,7 @@ class SignUp extends React.Component {
       field_pass: "",
       error: false
     };
+    document.title = "Sign Up";
   }
   componentWillMount = () => {
     console.log("componentWillMount()");
@@ -25,7 +26,7 @@ class SignUp extends React.Component {
     if(retrievedObject != null) {
       window.alert(retrievedObject + '\n您已經登入，重新導向中...');
       var username = JSON.parse(retrievedObject)['username'];
-      window.location = '/blog/' + username;
+      this.props.history.push('/blog/' + username);
     }
   };
   handleChange = name => event => {
@@ -74,20 +75,14 @@ class SignUp extends React.Component {
   };
 
   loginPage = e => {
-    axios.get('/redirect?page=login')
-    .then(function (res) {
-      console.log(res);
-      window.location = '/login';
-    })
-    .catch(function (error) {
-      console.log(error);
-    });  
+    this.props.history.push('/login');
   }
 
   render() {
     return (
       <Dialog 
-        open 
+        open
+        style={{backgroundImage: 'url("/assets/signup.jpg")', backgroundSize:'cover'}}
         onRequestClose={this.toggleLogin}
         fullScreen={this.props.fullScreen}>
         <DialogTitle>註冊</DialogTitle>

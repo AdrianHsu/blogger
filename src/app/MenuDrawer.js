@@ -5,8 +5,10 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar';
 
 
 const styles = {
@@ -20,10 +22,12 @@ const styles = {
 };
 
 class MenuDrawer extends React.Component {
-  state = {
-    left: false,
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      left: false,
+    };
+  }
   toggleDrawer = (side, open) => () => {
     this.setState({
       [side]: open,
@@ -32,7 +36,7 @@ class MenuDrawer extends React.Component {
   redirectAuth = (e) => {
     e.preventDefault();
     sessionStorage.clear();
-    window.location = '/login';
+    this.props.history.push('/login');
   };
 
   render() {
@@ -41,6 +45,10 @@ class MenuDrawer extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
+        <ListItem dense button >
+              <Avatar alt="user" src="/assets/bot.png" />
+              <ListItemText primary={this.props.username + "，歡迎回來！"} />
+        </ListItem>
         <ListItem button>
           我的網誌
         </ListItem>

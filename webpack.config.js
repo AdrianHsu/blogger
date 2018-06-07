@@ -5,15 +5,11 @@ var BUILD_DIR = path.resolve(__dirname, 'public/outputs');
 var APP_DIR = path.resolve(__dirname, 'src/app');
 
 var config = {
-  entry: {
-    login: APP_DIR + '/index_login.js',
-    signup: APP_DIR + '/index_signup.js',
-    blog: APP_DIR + '/index_blog.js'
-  }, 
+  entry: 
+    APP_DIR + '/index.js',
   output: {
-
     path: BUILD_DIR,
-    filename: '[name].js',
+    filename: 'index.js',
   },
   module: {
     rules: [ // not 'loaders', 'rules' is correct

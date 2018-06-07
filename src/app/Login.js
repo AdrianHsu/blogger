@@ -11,13 +11,14 @@ var sha256 = require('js-sha256');
 
 class Login extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       field_user: "",
       field_pass: "",
-      error: false
+      error: false,
     };
+    document.title = "Login";
   }
   componentWillMount = () => {
     console.log("componentWillMount()");
@@ -25,13 +26,13 @@ class Login extends React.Component {
     if(retrievedObject != null) {
       window.alert(retrievedObject + '\n您已經登入，重新導向中...');
       var username = JSON.parse(retrievedObject)['username'];
-      window.location = '/blog/' + username;
+      this.props.history.push('/blog/' + username);
     }
   };
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
-      error: false
+      error: false,
     });
   };
 
@@ -62,7 +63,7 @@ class Login extends React.Component {
         sessionStorage.setItem('userInfo', JSON.stringify( userInfo ));
 
         window.alert(userInfo['username'] + ': 登入成功！');
-        window.location = '/blog/' + this.state.field_user;
+        this.props.history.push('/blog/' + this.state.field_user);
       } else { // _message is ERROR message, error occurs!
         console.log(res.data);
         window.alert(res.data);
@@ -79,21 +80,16 @@ class Login extends React.Component {
   };
 
   signUpPage = e => {
-    axios.get('/redirect?page=signup')
-    .then(function (res) {
-      console.log(res);
-      window.location = '/signup';
-    })
-    .catch(function (error) {
-      console.log(error);
-    });  
+    this.props.history.push('/signup')
   }
 
   render() {
     return (
+      <div>
       <Dialog 
         open 
         onRequestClose={this.toggleLogin}
+        style={{backgroundImage: 'url("/assets/login.jpg")', backgroundSize:'cover'}}
         fullScreen={this.props.fullScreen}>
         <DialogTitle>登入</DialogTitle>
         <DialogContent>
@@ -132,6 +128,7 @@ class Login extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
+      </div>
     );
   }
 }
