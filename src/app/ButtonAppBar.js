@@ -35,11 +35,11 @@ class ButtonAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="fixed" color="default" className={classes.appbar}>
+        <AppBar position="static" color="default" className={classes.appbar}>
           <Toolbar>
             <MenuDrawer username={this.props.username} history={this.props.history}/>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              {this.props.hostname} 的網誌
+              {this.props.hostname}的網誌
             </Typography>
             <Button onClick={e => this.redirectAuth(e)}>
               登出

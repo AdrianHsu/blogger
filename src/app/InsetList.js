@@ -13,31 +13,41 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
-    padding: 24 ,
-    margin: theme.spacing.unit * 8,
-  
+    padding: 12,
+    margin: theme.spacing.unit * 6,
   },
 });
 
-function InsetList(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <List component="nav"
-        subheader={<ListSubheader component="div">文章列表</ListSubheader>}
-                >
-        <ListItem button>
-          <ListItemIcon>
-            <StarIcon />
-          </ListItemIcon>
-          <ListItemText inset primary="文章 1" />
-        </ListItem>
-        <ListItem button>
-          <ListItemText inset primary="文章 2" />
-        </ListItem>
-      </List>
-    </div>
-  );
+class InsetList extends React.Component {
+  
+  constructor(props) {
+    super(props);
+  }
+  handlePreview = (e) => {
+    e.preventDefault();
+    
+   this.props.previewCb(); 
+  }
+  render(){
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <List component="nav"
+          subheader={<ListSubheader component="div">文章列表</ListSubheader>}
+                  >
+          <ListItem button onClick={e => this.handlePreview(e)}>
+            <ListItemIcon>
+              <StarIcon />
+            </ListItemIcon>
+            <ListItemText inset primary="文章 1" />
+          </ListItem>
+          <ListItem button>
+            <ListItemText inset primary="文章 2" />
+          </ListItem>
+        </List>
+      </div>
+    );
+  }
 }
 
 InsetList.propTypes = {

@@ -6,6 +6,7 @@ import { Grid } from '@material-ui/core';
 import InsetList from './InsetList.js';
 import EditIcon from '@material-ui/icons/ModeEdit';
 import Button from '@material-ui/core/Button';
+import EditArticle from './EditArticle.js';
 
 const styles = {
   bg: {
@@ -19,7 +20,11 @@ class Blog extends React.Component {
     super(props);
     this.state = {
       username: "",
-      hostname: ""
+      hostname: "",
+      title: 'title',
+      time: Date(),
+      content: "hihihi",
+      mode: "preview"
     };
   }
   componentDidMount(){
@@ -34,7 +39,9 @@ class Blog extends React.Component {
       var username = retrievedObject.username;
       document.title = username;
       var host = this.props.location.pathname.split('/')[2];
-
+      if(host === username) {
+        host = "您";
+      }
       this.setState({
         username: username,
         hostname: host
@@ -42,7 +49,39 @@ class Blog extends React.Component {
 
     }
   }
-  
+  funcArticle(){
+    if(this.state.mode === "none"){
+      return null;
+    } else if(this.state.mode === "preview"){
+      return <PreviewArticle title={this.state.title} time={this.state.time} content={this.state.content}/>;
+    } else if(this.state.mode === "edit"){
+      return <EditArticle 
+        title={this.state.title} time={this.state.time} content={this.state.content}
+        handleTitleCb={this.handleTitleCb} handleContentCb={this.handleContentCb}/>;
+    }
+  }
+  handleFab = (e) => {
+    e.preventDefault();
+    this.setState({
+      mode: "edit"
+    });
+  }
+  previewCb = () => {
+    this.setState({
+      mode: "preview",
+    });
+  }
+  handleTitleCb = (v) => {
+    this.setState({
+      title: v
+    })
+  }
+  handleContentCb = (v) => {
+    this.setState({
+      content: v
+    })
+  }
+
   render() {
     
     return (
@@ -53,15 +92,16 @@ class Blog extends React.Component {
     </ButtonAppBar>
     <Grid container spacing={24}>
       <Grid item xs={12} sm={9}>
-      {/* <PreviewArticle/> */}
+      {this.funcArticle()}
       </Grid>
       <Grid item xs={8} sm={2}>
-      <InsetList />
+      <InsetList mode={this.state.mode} previewCb={this.previewCb}/>
       </Grid>
     </Grid>
-    <Button variant="fab" color="secondary" style={{position: 'absolute',
-    bottom: 30,
-    right: 30}}>
+    <Button variant="fab" color="secondary" onClick={e => this.handleFab(e)}
+      style={{position: 'absolute',
+        bottom: 30,
+        right: 30}}>
       <EditIcon/>
     </Button>
 
