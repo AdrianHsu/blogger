@@ -47,6 +47,10 @@ class EditArticle extends React.Component {
   handleChange = (event) => {
     this.props.handleContentCb(event.target.value);
   };
+  savePostCb = (e) => {
+  
+    this.props.savePostCb();
+  }
 
   render() {
     const { classes } = this.props;
@@ -73,12 +77,12 @@ class EditArticle extends React.Component {
       margin="normal"
     />
     <Button variant="outlined" color="secondary" className={classes.button}>
-        Delete
+        取消修改
         <Delete className={classes.rightIcon} />
     </Button>
-    <Button variant="outlined" color="primary" className={classes.button}>
+    <Button variant="outlined" color="primary" className={classes.button} onClick={e => this.savePostCb(e)}>
         <Save className={classNames(classes.leftIcon, classes.iconSmall)} />
-        Save
+        儲存
       </Button>
     </Card>);
   }

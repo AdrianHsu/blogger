@@ -19,28 +19,43 @@ const styles = theme => ({
 class PreviewArticle extends React.Component {
   constructor(props){
     super(props);
+    this.showCard = this.showCard.bind(this);
+  }
+
+  handleEditCb = (e) => {
+    e.preventDefault();
+    this.props.handleEditCb();
+  }
+
+  showCard = (classes) => {
+    if(this.props.time === "") {
+      return null;
+    }
+    return (
+      <Card className={classes.root} elevation={4}>
+      <Typography variant="headline">
+        {this.props.title}
+      </Typography>
+      <Typography variant="caption">
+        {this.props.time}
+      </Typography>
+      <Typography variant="body1">
+        {this.props.content}
+      </Typography>
+      <Button variant="outlined" color="secondary" className={classes.button}>
+        刪除
+      </Button>
+      <Button variant="outlined" color="primary" className={classes.button}
+        onClick={this.props.handleEditCb}>
+        修改
+      </Button>
+    </Card>);
   }
   render() {
     const {classes} = this.props;
     return (
       <div>
-        <Card className={classes.root} elevation={4}>
-          <Typography variant="headline">
-            {this.props.title}
-          </Typography>
-          <Typography variant="caption">
-            {this.props.time}
-          </Typography>
-          <Typography variant="body1">
-            {this.props.content}
-          </Typography>
-        <Button variant="outlined" color="secondary" className={classes.button}>
-          刪除
-        </Button>
-        <Button variant="outlined" color="primary" className={classes.button}>
-          修改
-        </Button>
-        </Card>
+        {this.showCard(classes)}
       </div>
     );
   }

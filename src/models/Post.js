@@ -5,6 +5,7 @@ const postSchema = mongoose.Schema({
     time: String,
     content: String,
     timestamp: String,
+    hash:String,
     author: String
 });
 

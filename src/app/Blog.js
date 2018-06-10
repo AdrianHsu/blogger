@@ -7,6 +7,7 @@ import InsetList from './InsetList.js';
 import EditIcon from '@material-ui/icons/ModeEdit';
 import Button from '@material-ui/core/Button';
 import EditArticle from './EditArticle.js';
+import axios from 'axios';
 
 const styles = {
   bg: {
@@ -21,9 +22,11 @@ class Blog extends React.Component {
     this.state = {
       username: "",
       hostname: "",
-      title: 'title',
-      time: Date(),
-      content: "hihihi",
+      title: "",
+      time: "",
+      content: "",
+      hash: "",
+      postList: [],
       mode: "preview"
     };
   }
@@ -39,6 +42,28 @@ class Blog extends React.Component {
       var username = retrievedObject.username;
       document.title = username;
       var host = this.props.location.pathname.split('/')[2];
+
+      axios.get('/blog/list', {
+        params: {
+          hostname: host
+        }
+      })
+      .then( (res) => {
+        // console.log(res['data']);
+        res.data.sort((a, b) => a.timestamp - b.timestamp); 
+        for(var i = 0; i < res['data'].length; i++) {
+          var post = res['data'][i];
+
+          post['pressed'] = false;
+          this.setState({
+            postList: this.state.postList.concat(post),
+          });
+        }
+        // this.forceUpdate();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       if(host === username) {
         host = "您";
       }
@@ -53,21 +78,52 @@ class Blog extends React.Component {
     if(this.state.mode === "none"){
       return null;
     } else if(this.state.mode === "preview"){
-      return <PreviewArticle title={this.state.title} time={this.state.time} content={this.state.content}/>;
+      return <PreviewArticle title={this.state.title} time={this.state.time} content={this.state.content}
+              handleEditCb={this.handleEditCb}/>;
     } else if(this.state.mode === "edit"){
       return <EditArticle 
         title={this.state.title} time={this.state.time} content={this.state.content}
-        handleTitleCb={this.handleTitleCb} handleContentCb={this.handleContentCb}/>;
+        handleTitleCb={this.handleTitleCb} handleContentCb={this.handleContentCb}
+        savePostCb={this.savePostCb} />;
     }
+  }
+  handleEditCb = (e) => {
+    e.preventDefault();
+    this.setState({
+      mode: "edit",
+    });
   }
   handleFab = (e) => {
     e.preventDefault();
     this.setState({
-      mode: "edit"
+      mode: "edit",
+      hash: "",
+      title: "",
+      time: "",
+      content: "",
+    
     });
   }
-  previewCb = () => {
+  handlePreviewCb = (hash) => {
+
+    var tmpList = [];
+    for(var i = 0; i < this.state.postList.length; i++) {
+      var post = this.state.postList[i];
+      if(post['hash'] === hash) {
+        post['pressed'] = true;
+        this.setState({
+          title: post['title'],
+          time: post['time'],
+          content: post['content'],
+          hash: post['hash']
+        });
+      } else {
+        post['pressed'] = false;
+      }
+      tmpList.push(post);
+    }
     this.setState({
+      postList: tmpList,
       mode: "preview",
     });
   }
@@ -80,6 +136,75 @@ class Blog extends React.Component {
     this.setState({
       content: v
     })
+  }
+
+
+
+  savePostCb = () => {
+    var newPost = false;
+    if(this.state.hash === ""){
+      var hash = Math.random().toString(36).substr(2, 5);
+      newPost = true;
+    } else {
+      var hash = this.state.hash;
+    }
+    var myres = null;
+    this.setState({
+      hash: hash
+    }, () => {
+      axios.put('/blog/post', {
+        title: this.state.title,
+        content: this.state.content,
+        // timestamp: Date.now(),
+        // time: Date,
+        hash: this.state.hash,
+        author: this.state.username
+      })
+      .then((res) => {
+        console.log(res);
+        myres = res.data;
+        myres['pressed'] = false;
+
+        if(newPost === true){
+          this.setState({
+            postList: this.state.postList.concat(myres),
+            title: "",
+            time: "",
+            content: "",
+            hash: "",
+            mode: "preview"
+          });
+        } else {
+          var tmpList = [];
+          for(var i = 0; i < this.state.postList.length; i++) {
+            var post = this.state.postList[i];
+            if(post['hash'] === hash) {
+    
+              post = myres;
+            } else {
+              // do nothing
+            }
+            tmpList.push(post);
+          }
+          tmpList.sort((a, b) => a.timestamp - b.timestamp); 
+
+          this.setState({
+            postList: tmpList,
+            title: "",
+            time: "",
+            content: "",
+            hash: "",
+            mode: "preview"
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    })
+
+
+
   }
 
   render() {
@@ -95,7 +220,7 @@ class Blog extends React.Component {
       {this.funcArticle()}
       </Grid>
       <Grid item xs={8} sm={2}>
-      <InsetList mode={this.state.mode} previewCb={this.previewCb}/>
+      <InsetList mode={this.state.mode} handlePreviewCb={this.handlePreviewCb} postList={this.state.postList}/>
       </Grid>
     </Grid>
     <Button variant="fab" color="secondary" onClick={e => this.handleFab(e)}

@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import StarIcon from '@material-ui/icons/Star';
+import InsetListItem from './InsetListItem.js';
 
 const styles = theme => ({
   root: {
@@ -23,27 +20,30 @@ class InsetList extends React.Component {
   constructor(props) {
     super(props);
   }
-  handlePreview = (e) => {
-    e.preventDefault();
-    
-   this.props.previewCb(); 
+  handlePreviewCb = (key) => {
+
+   this.props.handlePreviewCb(key); 
   }
+
   render(){
     const { classes } = this.props;
+    var listItems = this.props.postList.map(item => (
+      <InsetListItem
+        hashNum={item.hash}
+        key={item.hash}
+        title={item.title}
+        time={item.time}
+        pressed={item.pressed}
+        handlePreviewCb={this.handlePreviewCb}
+        />
+    ));
+
     return (
       <div className={classes.root}>
         <List component="nav"
           subheader={<ListSubheader component="div">文章列表</ListSubheader>}
                   >
-          <ListItem button onClick={e => this.handlePreview(e)}>
-            <ListItemIcon>
-              <StarIcon />
-            </ListItemIcon>
-            <ListItemText inset primary="文章 1" />
-          </ListItem>
-          <ListItem button>
-            <ListItemText inset primary="文章 2" />
-          </ListItem>
+          {listItems}
         </List>
       </div>
     );
