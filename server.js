@@ -1,6 +1,16 @@
+var https = require('https');
+var fs = require('fs'); // new!
 var express = require('express');
 const app = express();
-var http = require('http').Server(app);
+
+const options = {
+    key: fs.readFileSync('/etc/nginx/ssl/cert.key'),
+    cert: fs.readFileSync('/etc/nginx/ssl/cert.pem')
+};
+var httpsServer = https.createServer(options, app).listen(8080, '0.0.0.0');
+
+// same below
+// var http = require('http').Server(app);
 var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
