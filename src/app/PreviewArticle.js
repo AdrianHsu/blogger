@@ -27,6 +27,16 @@ class PreviewArticle extends React.Component {
     this.props.handleEditCb();
   }
 
+  funcButton(classes) {
+    if(this.props.isSelf === false) return null;
+    return(<div><Button variant="outlined" color="secondary" className={classes.button}>
+      刪除
+    </Button>
+    <Button variant="outlined" color="primary" className={classes.button}
+      onClick={this.props.handleEditCb}>
+      修改
+    </Button></div>);
+  }
   showCard = (classes) => {
     if(this.props.time === "") {
       return null;
@@ -42,13 +52,8 @@ class PreviewArticle extends React.Component {
       <Typography variant="body1">
         {this.props.content}
       </Typography>
-      <Button variant="outlined" color="secondary" className={classes.button}>
-        刪除
-      </Button>
-      <Button variant="outlined" color="primary" className={classes.button}
-        onClick={this.props.handleEditCb}>
-        修改
-      </Button>
+      {this.funcButton(classes)}
+
     </Card>);
   }
   render() {

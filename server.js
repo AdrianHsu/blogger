@@ -53,6 +53,11 @@ app.put('/blog/post', (req, res) => {
     
     postSocket.putPosts(newPost, res);
 });
+app.get('/user/allusers', function(req, res){
+    const me = req.query.username;
+    
+    userSocket.loadUserList(me, res);
+});
 app.get('/blog/list', function(req, res){
     const host = req.query.hostname;
     postSocket.loadPostList(host, res);

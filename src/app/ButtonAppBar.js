@@ -30,6 +30,9 @@ class ButtonAppBar extends React.Component {
     sessionStorage.clear();
     this.props.history.push('/login');
   }
+  handleClickOpen = (e) => {
+    this.props.handleClickOpen(e);
+  }
   render() {
     const { classes } = this.props;
 
@@ -37,7 +40,8 @@ class ButtonAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" color="default" className={classes.appbar}>
           <Toolbar>
-            <MenuDrawer username={this.props.username} history={this.props.history}/>
+            <MenuDrawer username={this.props.username} history={this.props.history} 
+              handleClick={e => this.handleClickOpen(e)}/>
             <Typography variant="title" color="inherit" className={classes.flex}>
               {this.props.hostname}的網誌
             </Typography>

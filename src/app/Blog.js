@@ -8,6 +8,7 @@ import EditIcon from '@material-ui/icons/ModeEdit';
 import Button from '@material-ui/core/Button';
 import EditArticle from './EditArticle.js';
 import axios from 'axios';
+import SimpleDialog from './SimpleDialog.js';
 
 const styles = {
   bg: {
@@ -27,7 +28,9 @@ class Blog extends React.Component {
       content: "",
       hash: "",
       postList: [],
-      mode: "preview"
+      userList: [],
+      mode: "preview",
+      open: false,
     };
   }
   componentDidMount(){
@@ -40,8 +43,25 @@ class Blog extends React.Component {
       // console.log(retrievedObject);
       retrievedObject = JSON.parse(retrievedObject);
       var username = retrievedObject.username;
-      document.title = username;
       var host = this.props.location.pathname.split('/')[2];
+
+      axios.get('/user/allusers', {
+        params: {
+          username: username
+        }
+      })
+      .then( (res) => {
+        for(var i = 0; i < res['data'].length; i++) {
+          var user = JSON.parse(res['data'][i]);
+          this.setState({
+            userList: this.state.userList.concat(user),
+          });
+        }
+        // this.forceUpdate();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });  
 
       axios.get('/blog/list', {
         params: {
@@ -64,14 +84,13 @@ class Blog extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
-      if(host === username) {
-        host = "您";
-      }
+      
       this.setState({
         username: username,
         hostname: host
+      }, () => {
+        document.title = this.state.username;
       });
-
     }
   }
   funcArticle(){
@@ -79,13 +98,23 @@ class Blog extends React.Component {
       return null;
     } else if(this.state.mode === "preview"){
       return <PreviewArticle title={this.state.title} time={this.state.time} content={this.state.content}
-              handleEditCb={this.handleEditCb}/>;
+              handleEditCb={this.handleEditCb} isSelf={this.state.username === this.state.hostname}/>;
     } else if(this.state.mode === "edit"){
       return <EditArticle 
         title={this.state.title} time={this.state.time} content={this.state.content}
         handleTitleCb={this.handleTitleCb} handleContentCb={this.handleContentCb}
         savePostCb={this.savePostCb} />;
     }
+  }
+  funcFab() {
+    if(this.state.hostname !== this.state.username) return null;
+    return(
+    <Button variant="fab" color="secondary" onClick={e => this.handleFab(e)}
+    style={{position: 'absolute',
+      bottom: 30,
+      right: 30}}>
+    <EditIcon/>
+  </Button>);
   }
   handleEditCb = (e) => {
     e.preventDefault();
@@ -137,8 +166,6 @@ class Blog extends React.Component {
       content: v
     })
   }
-
-
 
   savePostCb = () => {
     var newPost = false;
@@ -202,10 +229,25 @@ class Blog extends React.Component {
         console.log(error);
       })
     })
-
-
-
   }
+
+  handleClickOpen = (e) => {
+    // console.log(e);
+    this.setState({
+      open: true,
+    });
+  };
+
+  handleClose = value => {
+    console.log(value);
+    this.setState({ 
+      hostname: value, 
+      open: false }, () => {
+        this.props.history.push('/blog/' + this.state.hostname);
+        location.reload();
+      });
+  };
+
 
   render() {
     
@@ -213,22 +255,26 @@ class Blog extends React.Component {
     <div>
     <ButtonAppBar history={this.props.history} 
       username={this.state.username} 
-      hostname={this.state.hostname}>
+      hostname={this.state.hostname}
+      handleClickOpen={e => this.handleClickOpen(e)}>
     </ButtonAppBar>
+    <SimpleDialog
+          users={this.state.userList}
+          selectedValue={this.state.selectedValue}
+          open={this.state.open}
+          onClose={this.handleClose}
+        />
     <Grid container spacing={24}>
       <Grid item xs={12} sm={9}>
       {this.funcArticle()}
       </Grid>
       <Grid item xs={8} sm={2}>
-      <InsetList mode={this.state.mode} handlePreviewCb={this.handlePreviewCb} postList={this.state.postList}/>
+      <InsetList mode={this.state.mode} handlePreviewCb={this.handlePreviewCb} 
+      postList={this.state.postList}/>
       </Grid>
     </Grid>
-    <Button variant="fab" color="secondary" onClick={e => this.handleFab(e)}
-      style={{position: 'absolute',
-        bottom: 30,
-        right: 30}}>
-      <EditIcon/>
-    </Button>
+    {this.funcFab()}
+
 
     </div>);
   }

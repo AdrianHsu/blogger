@@ -49,6 +49,21 @@ class UserSocket {
             }
         });
     };
+    loadUserList(me, res) {
+        User.find({}, function(err, users) {
+            var arr = [];
+            for(var i = 0; i < users.length; i++) {
+                if(users[i]['username'] != me) {
+                    var obj = JSON.stringify({name: users[i]['username']});
+                    arr.push(obj);
+                }
+            }
+            if(arr.length === 0) {
+                console.log('only one user...');
+            }
+            res.send(arr);
+        });
+    }
 
 }
 

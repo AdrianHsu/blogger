@@ -10,7 +10,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
-
 const styles = {
   list: {
     width: 250,
@@ -26,6 +25,7 @@ class MenuDrawer extends React.Component {
     super(props);
     this.state = {
       left: false,
+
     };
   }
   toggleDrawer = (side, open) => () => {
@@ -38,21 +38,35 @@ class MenuDrawer extends React.Component {
     sessionStorage.clear();
     this.props.history.push('/login');
   };
+  returnUser = (e) => {
+    e.preventDefault();
+    this.props.history.push('/blog/' + this.props.username);
+    location.reload();
+
+  }
+  handleClickOpen = (e) => {
+    e.preventDefault();
+    this.props.handleClick(e);
+  }
+
 
   render() {
     const { classes } = this.props;
 
     const sideList = (
       <div className={classes.list}>
+
         <List>
-        <ListItem dense button >
+        <ListItem dense button 
+          onClick={e => this.returnUser(e)}>
               <Avatar alt="user" src="/assets/bot.png" />
               <ListItemText primary={this.props.username + "，歡迎回來！"} />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={e => this.returnUser(e)}>
           我的網誌
         </ListItem>
-        <ListItem button>
+        <ListItem button 
+          onClick={e => this.handleClickOpen(e)}>
           用戶列表
         </ListItem>
         <ListItem button onClick={e => this.redirectAuth(e)}>
