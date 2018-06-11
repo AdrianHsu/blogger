@@ -255,7 +255,7 @@ class Blog extends React.Component {
         author: this.state.username
       })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         myres = res.data;
         myres['pressed'] = false;
 
