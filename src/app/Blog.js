@@ -36,62 +36,66 @@ class Blog extends React.Component {
   componentDidMount(){
     var retrievedObject = sessionStorage.getItem('userInfo');
     if(retrievedObject == null) {
-      window.alert('登入無效，請重新登入！');
-      this.props.history.push('/login');
+      window.alert('你沒有登入哦！進入訪客瀏覽模式...');
+      // this.props.history.push('/login');
+      var username = "訪客";
     } else {
       // window.alert(retrievedObject + '\n登入成功！');
       // console.log(retrievedObject);
       retrievedObject = JSON.parse(retrievedObject);
       var username = retrievedObject.username;
-      var host = this.props.location.pathname.split('/')[2];
-
-      axios.get('/user/allusers', {
-        params: {
-          username: username
-        }
-      })
-      .then( (res) => {
-        for(var i = 0; i < res['data'].length; i++) {
-          var user = JSON.parse(res['data'][i]);
-          this.setState({
-            userList: this.state.userList.concat(user),
-          });
-        }
-        // this.forceUpdate();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });  
-
-      axios.get('/blog/list', {
-        params: {
-          hostname: host
-        }
-      })
-      .then( (res) => {
-        // console.log(res['data']);
-        res.data.sort((a, b) => a.timestamp - b.timestamp); 
-        for(var i = 0; i < res['data'].length; i++) {
-          var post = res['data'][i];
-
-          post['pressed'] = false;
-          this.setState({
-            postList: this.state.postList.concat(post),
-          });
-        }
-        // this.forceUpdate();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-      
-      this.setState({
-        username: username,
-        hostname: host
-      }, () => {
-        document.title = this.state.username;
-      });
     }
+    var host = this.props.location.pathname.split('/')[2];
+    if(host === undefined) {
+      host = "";
+    }
+    axios.get('/user/allusers', {
+      params: {
+        username: username
+      }
+    })
+    .then( (res) => {
+      for(var i = 0; i < res['data'].length; i++) {
+        var user = JSON.parse(res['data'][i]);
+        this.setState({
+          userList: this.state.userList.concat(user),
+        });
+      }
+      // this.forceUpdate();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });  
+
+    axios.get('/blog/list', {
+      params: {
+        hostname: host
+      }
+    })
+    .then( (res) => {
+      // console.log(res['data']);
+      res.data.sort((a, b) => a.timestamp - b.timestamp); 
+      for(var i = 0; i < res['data'].length; i++) {
+        var post = res['data'][i];
+
+        post['pressed'] = false;
+        this.setState({
+          postList: this.state.postList.concat(post),
+        });
+      }
+      // this.forceUpdate();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+    this.setState({
+      username: username,
+      hostname: host
+    }, () => {
+      document.title = this.state.username;
+    });
+    
   }
   funcArticle(){
     if(this.state.mode === "none"){

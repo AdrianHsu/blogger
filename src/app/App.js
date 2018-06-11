@@ -9,6 +9,7 @@ const App = (
       <Route exact path="/" component={Login} />
       <Route path="/signup" component={SignUp} />
       <Redirect from="/login" to="/" />
+      <Route path="/blog/" component={Blog} />
       <Route path="/blog/:id" component={Blog} />
     </Switch>
   </BrowserRouter>

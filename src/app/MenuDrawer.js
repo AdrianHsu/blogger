@@ -49,15 +49,19 @@ class MenuDrawer extends React.Component {
     this.props.handleClick(e);
   }
 
-
-  render() {
-    const { classes } = this.props;
-
-    const sideList = (
-      <div className={classes.list}>
-
-        <List>
-        <ListItem dense button 
+  loginButton = () => {
+    if(this.props.username === '訪客') {
+      return(<List>
+        <ListItem button 
+          onClick={e => this.handleClickOpen(e)}>
+          用戶列表
+        </ListItem>
+        <ListItem button onClick={e => this.redirectAuth(e)}>
+        登入
+      </ListItem></List>);
+    } else {
+      return(<List>
+                <ListItem dense button 
           onClick={e => this.returnUser(e)}>
               <Avatar alt="user" src="/assets/bot.png" />
               <ListItemText primary={this.props.username + "，歡迎回來！"} />
@@ -70,9 +74,17 @@ class MenuDrawer extends React.Component {
           用戶列表
         </ListItem>
         <ListItem button onClick={e => this.redirectAuth(e)}>
-          登出
-        </ListItem>
-        </List>
+        登出
+      </ListItem></List>);
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    const sideList = (
+      <div className={classes.list}>
+        {this.loginButton()}      
       </div>
     );
 

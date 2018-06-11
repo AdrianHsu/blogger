@@ -36,6 +36,10 @@ class Login extends React.Component {
     });
   };
 
+  toggleVisit = e => {
+    window.alert('進入訪客模式...');
+    this.props.history.push('/blog');
+  }
   toggleLogin = e => {
     // Math.random().toString(36).substr(2, 5);
     var re = RegExp('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$');
@@ -120,6 +124,9 @@ class Login extends React.Component {
           />
         </DialogContent>
         <DialogActions>
+          <Button onClick={this.toggleVisit} color="secondary">
+            訪客模式
+          </Button>
           <Button onClick={this.signUpPage} color="secondary">
             註冊
           </Button>

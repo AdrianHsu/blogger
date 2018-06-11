@@ -33,6 +33,29 @@ class ButtonAppBar extends React.Component {
   handleClickOpen = (e) => {
     this.props.handleClickOpen(e);
   }
+  loginButton = (e) => {
+    if(this.props.username === '訪客') {
+      return(
+        <Button onClick={e => this.redirectAuth(e)}>
+        登入
+      </Button>);
+    } else {
+      return(
+        <Button onClick={e => this.redirectAuth(e)}>
+        登出
+      </Button>);
+    }
+  }
+  titleBar = (classes) => {
+    if(this.props.hostname === ""){
+      return (<Typography variant="title" color="inherit" className={classes.flex}>
+      請點左上方，選擇拜訪的用戶
+      </Typography>);
+    }
+    return (<Typography variant="title" color="inherit" className={classes.flex}>
+    {this.props.hostname}的部落格
+    </Typography>);
+  }
   render() {
     const { classes } = this.props;
 
@@ -42,13 +65,9 @@ class ButtonAppBar extends React.Component {
           <Toolbar>
             <MenuDrawer username={this.props.username} history={this.props.history} 
               handleClick={e => this.handleClickOpen(e)}/>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-              {this.props.hostname}的部落格
-            </Typography>
-            <Button onClick={e => this.redirectAuth(e)}>
-              登出
-            </Button>
-
+            {this.titleBar(classes)}
+            
+            {this.loginButton()}
           </Toolbar>
         </AppBar>
       </div>
