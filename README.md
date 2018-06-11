@@ -132,7 +132,7 @@ export default App;
 
 #### 1. C for Create: create posts, users
 
-#### 2. R for Remove: remove posts 
+#### 2. R for Read: get posts 
 
 #### 3. U for Update: update posts (override the original oist)
 
