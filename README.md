@@ -134,7 +134,7 @@ export default App;
 
 #### 2. R for Read: get posts 
 
-#### 3. U for Update: update posts (override the original oist)
+#### 3. U for Update: update posts (override the original post)
 
 #### 4. D for Delete: remove posts
 
