@@ -27,9 +27,16 @@ class PreviewArticle extends React.Component {
     this.props.handleEditCb();
   }
 
+  deleteArticleCb = (e) => {
+    e.preventDefault();
+    this.props.deleteArticleCb();
+  }
+
   funcButton(classes) {
     if(this.props.isSelf === false) return null;
-    return(<div><Button variant="outlined" color="secondary" className={classes.button}>
+    return(<div><Button variant="outlined" color="secondary" 
+      className={classes.button}
+      onClick={this.deleteArticleCb}>
       刪除
     </Button>
     <Button variant="outlined" color="primary" className={classes.button}

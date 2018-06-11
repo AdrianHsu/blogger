@@ -48,7 +48,20 @@ class PostSocket {
             res.send(posts);
         }
     });
-}
+    }
 
+    deleteArticle(hash, res) {
+        const query = {hash: hash};
+        Post.findOneAndRemove(query, function(error, result) {
+            if (error) {
+                console.log(error);
+                res.send(error);
+                return;
+            } else {
+                // console.log(result);
+                res.send(result);
+            }
+        });
+    }
 }
 module.exports = PostSocket;

@@ -97,12 +97,49 @@ class Blog extends React.Component {
     });
     
   }
+  deleteArticleCb = () => {
+    // console.log(this.state.hash);
+    axios.delete('/blog/post', {
+      params: {
+        hash: this.state.hash
+      }
+    })
+    .then( (res) => {
+      // console.log(res);
+      var tmpList = [];
+      var original_title = [];
+      for(var i = 0; i < this.state.postList.length; i++) {
+        var post = this.state.postList[i];
+        if(post['hash'] === this.state.hash) {
+          original_title = post['title'];
+          continue; // i.e. remove this post
+        } else {
+          post['pressed'] = false;
+        }
+        tmpList.push(post);
+      }
+      this.setState({
+        postList: tmpList,
+        mode: "preview",
+        title: "",
+        time: "",
+        content: "",
+        hash: ""
+      }, () => {
+        window.alert('已刪除: ' + original_title);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
   funcArticle(){
     if(this.state.mode === "none"){
       return null;
     } else if(this.state.mode === "preview"){
       return <PreviewArticle title={this.state.title} time={this.state.time} content={this.state.content}
-              handleEditCb={this.handleEditCb} isSelf={this.state.username === this.state.hostname}/>;
+              handleEditCb={this.handleEditCb} isSelf={this.state.username === this.state.hostname}
+              deleteArticleCb={this.deleteArticleCb}/>;
     } else if(this.state.mode === "edit"){
       return <EditArticle 
         title={this.state.title} time={this.state.time} content={this.state.content}

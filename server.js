@@ -53,6 +53,11 @@ app.put('/blog/post', (req, res) => {
     
     postSocket.putPosts(newPost, res);
 });
+app.delete('/blog/post', (req, res) => {
+    const hash = req.query.hash;
+    postSocket.deleteArticle(hash, res);
+});
+
 app.get('/user/allusers', function(req, res){
     const me = req.query.username;
     
