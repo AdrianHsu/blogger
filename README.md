@@ -150,7 +150,7 @@ export default App;
 
 ![signup](img/signup.png)
 
-3. Blog: [http://localhost:3000/blog/username](http://localhost:3000/blog/username
+3. Blog: [http://localhost:3000/blog/username](http://localhost:3000/blog/username)
 
 ![b](./img/update-delete.png)
 
@@ -176,7 +176,7 @@ choose who you want to visit. The hostname will be shown in the url, like `/blog
 
 ![](./img/visit.png)
 
-
+## Dependencies
 
 ```
   "dependencies": {
@@ -222,7 +222,7 @@ userSchema.plugin(uniqueValidator); # check username is unique
 ```Javascript
 const postSchema = mongoose.Schema({
     title: String, # 你好嗎
-    time: String, # "20:23:27, 2018-6-11
+    time: String, # "20:23:27, 2018-6-11"
     content: String, # 我很好
     timestamp: String, # "1526819007387"
     hash:String, # QR30X, for identification
