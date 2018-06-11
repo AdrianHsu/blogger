@@ -43,7 +43,7 @@ class ButtonAppBar extends React.Component {
             <MenuDrawer username={this.props.username} history={this.props.history} 
               handleClick={e => this.handleClickOpen(e)}/>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              {this.props.hostname}的網誌
+              {this.props.hostname}的部落格
             </Typography>
             <Button onClick={e => this.redirectAuth(e)}>
               登出

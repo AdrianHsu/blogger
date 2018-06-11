@@ -51,6 +51,9 @@ class EditArticle extends React.Component {
   
     this.props.savePostCb();
   }
+  cancelPostCb = (e) => {
+    this.props.cancelPostCb();
+  }
 
   render() {
     const { classes } = this.props;
@@ -76,8 +79,9 @@ class EditArticle extends React.Component {
       className={classes.textField}
       margin="normal"
     />
-    <Button variant="outlined" color="secondary" className={classes.button}>
-        取消修改
+    <Button variant="outlined" color="secondary" className={classes.button}
+        onClick={e => this.cancelPostCb(e)}>
+        取消
         <Delete className={classes.rightIcon} />
     </Button>
     <Button variant="outlined" color="primary" className={classes.button} onClick={e => this.savePostCb(e)}>

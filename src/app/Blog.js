@@ -103,7 +103,7 @@ class Blog extends React.Component {
       return <EditArticle 
         title={this.state.title} time={this.state.time} content={this.state.content}
         handleTitleCb={this.handleTitleCb} handleContentCb={this.handleContentCb}
-        savePostCb={this.savePostCb} />;
+        savePostCb={this.savePostCb} cancelPostCb={this.cancelPostCb}/>;
     }
   }
   funcFab() {
@@ -166,7 +166,33 @@ class Blog extends React.Component {
       content: v
     })
   }
+  cancelPostCb = () => {
+    if(this.state.hash === "") {
+      this.setState({
+        title: "",
+        time: "",
+        content: "",
+        hash: "",
+        mode: "preview",
+      });
+    } else {
+      for(var i = 0; i < this.state.postList.length; i++) {
+        var post = this.state.postList[i];
+        if(post['hash'] === this.state.hash) {
+          this.setState({
+            title: post['title'],
+            time: post['time'],
+            content: post['content'],
+            hash: post['hash'],
+            mode: "preview",
+          }, () => {
+            return;
+          });
+        } 
+      }
+    }
 
+  }
   savePostCb = () => {
     var newPost = false;
     if(this.state.hash === ""){
@@ -260,7 +286,6 @@ class Blog extends React.Component {
     </ButtonAppBar>
     <SimpleDialog
           users={this.state.userList}
-          selectedValue={this.state.selectedValue}
           open={this.state.open}
           onClose={this.handleClose}
         />
