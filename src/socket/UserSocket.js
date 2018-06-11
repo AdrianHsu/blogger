@@ -16,13 +16,13 @@ class UserSocket {
             updateTime: data.updateTime
         });
         newUser.save(function(err, data){
-            console.log(data);
+            //console.log(data);
             if(err){ 
-                console.log(err); 
+              //  console.log(err); 
                 res.send(err);
             }
             else{
-                console.log(data);
+              //  console.log(data);
                 res.send(data);
             } 
         });
