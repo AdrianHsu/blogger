@@ -87,9 +87,9 @@ app.get('/*', function(req, res) {
     });
 });
 
-http.listen(port, function(err) {
-    if (err) {
-        console.log(err);
-    }
-    console.log('listen on port ' + port);
-});
+//http.listen(port, function(err) {
+//    if (err) {
+//        console.log(err);
+//    }
+//    console.log('listen on port ' + port);
+//});
